@@ -1,0 +1,21 @@
+:root {
+    --primary-color: #FF3E00;
+    --bg-color: #050505;
+    --text-main: #FFFFFF;
+    --font-main: 'Inter', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    cursor: default;
+}
