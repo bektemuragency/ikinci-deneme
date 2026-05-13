@@ -16,7 +16,7 @@ export const renderServices = (container, data) => {
                 <span class="service-num">${service.num}</span>
                 <h3 class="service-title">${service.title}</h3>
                 <p class="service-desc">${service.desc}</p>
-                <button class="nav-contact-btn">KEŞFET</button>
+                <a href="#${service.slug}" class="nav-contact-btn" style="text-decoration:none; display:inline-block;">KEŞFET</a>
             </div>
         `;
         container.appendChild(row);

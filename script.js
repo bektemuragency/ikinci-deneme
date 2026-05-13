@@ -5,23 +5,57 @@ import { initAnimations } from './js/animations.js';
 
 class App {
     constructor() {
-        this.appContainer = document.getElementById('app');
-        this.components = ['navbar', 'hero', 'work', 'services', 'marquee', 'footer'];
+        this.navContainer = document.getElementById('nav-container');
+        this.pageContainer = document.getElementById('page-content');
+        this.footerContainer = document.getElementById('footer-container');
+
+        this.routes = {
+            'home': ['hero', 'work', 'services', 'marquee'],
+            'web-tasarim': ['services/web-tasarim'],
+            'mobil-uygulama': ['services/mobil-uygulama'],
+            'marka-kimligi': ['services/marka-kimligi'],
+            'yapay-zeka': ['services/yapay-zeka'],
+            'ui-ux': ['services/ui-ux'],
+            'e-ticaret': ['services/e-ticaret'],
+            'siber-guvenlik': ['services/siber-guvenlik'],
+            'hakkimizda': ['hakkimizda']
+        };
+
         this.init();
     }
 
     async init() {
-        // 1. Core: Load all HTML parts from /parts/
-        await ComponentLoader.loadAll(this.appContainer, this.components);
-        
-        // 2. Data: Render dynamic services
-        const servicesContainer = document.getElementById('services-container');
-        renderServices(servicesContainer, serviceData);
-        
-        // 3. Effects: Init animations
+        // 1. Load Common Components (Once)
+        await ComponentLoader.loadAll(this.navContainer, ['navbar']);
+        await ComponentLoader.loadAll(this.footerContainer, ['footer']);
+
+        // 2. Initial Route
+        this.handleRoute();
+
+        // 3. Listen for Hash Changes
+        window.addEventListener('hashchange', () => this.handleRoute());
+
+        console.log('Bektemur Agency Core Engine Initialized.');
+    }
+
+    async handleRoute() {
+        const hash = window.location.hash.replace('#', '') || 'home';
+        const components = this.routes[hash] || this.routes['home'];
+
+        // Clear and load new components
+        await ComponentLoader.loadAll(this.pageContainer, components);
+
+        // Re-initialize specific features if on home
+        if (hash === 'home' || !hash) {
+            const servicesContainer = document.getElementById('services-container');
+            if (servicesContainer) renderServices(servicesContainer, serviceData);
+        }
+
+        // Re-init animations for new content
         initAnimations();
-        
-        console.log('Bektemur Agency Modular Engine Initialized.');
+
+        // Scroll to top
+        window.scrollTo(0, 0);
     }
 }
 
